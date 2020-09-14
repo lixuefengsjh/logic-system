@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.internal.zl.logicsystem.mapper.DeliveriesItemMapper" >
+  <resultMap id="BaseResultMap" type="com.internal.zl.logicsystem.en.entity.DeliveriesItem" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="do" property="doNo" jdbcType="VARCHAR" />
+    <result column="sku" property="sku" jdbcType="VARCHAR" />
+    <result column="descr" property="desc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, do, sku, descr,qty
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from deliveries_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from deliveries_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.internal.zl.logicsystem.en.entity.DeliveriesItem" >
+    insert into deliveries_item (id, do, sku, 
+      descr,qty)
+    values (#{id,jdbcType=INTEGER}, #{doNo,jdbcType=VARCHAR}, #{sku,jdbcType=VARCHAR},
+      #{desc,jdbcType=VARCHAR},#{qty,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.internal.zl.logicsystem.en.entity.DeliveriesItem" >
+    insert into deliveries_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="doNo != null" >
+        do,
+      </if>
+      <if test="sku != null" >
+        sku,
+      </if>
+      <if test="desc != null" >
+        descr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="doNo != null" >
+        #{doNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sku != null" >
+        #{sku,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="batchInsert">
+        insert into deliveries_item (
+        id,do,sku,descr,qty
+        ) values
+    <foreach collection="items" item="item" separator=",">
+      (#{item.id},#{item.doNo},#{item.sku},#{item.desc},#{item.qty})
+    </foreach>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.internal.zl.logicsystem.en.entity.DeliveriesItem" >
+    update deliveries_item
+    <set >
+      <if test="doNo != null" >
+        do = #{doNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sku != null" >
+        sku = #{sku,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        descr = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.internal.zl.logicsystem.en.entity.DeliveriesItem" >
+    update deliveries_item
+    set do = #{doNo,jdbcType=VARCHAR},
+      sku = #{sku,jdbcType=VARCHAR},
+      descr = #{desc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.internal.zl.logicsystem.mapper.DeliveriesInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.internal.zl.logicsystem.en.entity.DeliveriesInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="delivery_time" property="deliveryTime" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="notify_email" property="notifyEmail" jdbcType="VARCHAR" />
+    <result column="notify_url" property="notifyUrl" jdbcType="VARCHAR" />
+    <result column="assign_to" property="assignTo" jdbcType="VARCHAR" />
+    <result column="instructions" property="instructions" jdbcType="VARCHAR" />
+    <result column="zone" property="zone" jdbcType="VARCHAR" />
+    <result column="deliver_address" property="deliverAddress" jdbcType="VARCHAR" />
+    <result column="deliver_phone" property="deliverPhone" jdbcType="VARCHAR" />
+    <result column="do" property="doNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, date, address, delivery_time, phone, notify_email, notify_url, assign_to, instructions, 
+    zone, deliver_address, deliver_phone, do, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from deliveries_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from deliveries_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.internal.zl.logicsystem.en.entity.DeliveriesInfo" >
+    insert into deliveries_info (id, date, address, 
+      delivery_time, phone, notify_email, 
+      notify_url, assign_to, instructions, 
+      zone, deliver_address, deliver_phone, 
+      do, status)
+    values (#{id,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, 
+      #{deliveryTime,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{notifyEmail,jdbcType=VARCHAR}, 
+      #{notifyUrl,jdbcType=VARCHAR}, #{assignTo,jdbcType=VARCHAR}, #{instructions,jdbcType=VARCHAR}, 
+      #{zone,jdbcType=VARCHAR}, #{deliverAddress,jdbcType=VARCHAR}, #{deliverPhone,jdbcType=VARCHAR}, 
+      #{doNo,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.internal.zl.logicsystem.en.entity.DeliveriesInfo" >
+    insert into deliveries_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="deliveryTime != null" >
+        delivery_time,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="notifyEmail != null" >
+        notify_email,
+      </if>
+      <if test="notifyUrl != null" >
+        notify_url,
+      </if>
+      <if test="assignTo != null" >
+        assign_to,
+      </if>
+      <if test="instructions != null" >
+        instructions,
+      </if>
+      <if test="zone != null" >
+        zone,
+      </if>
+      <if test="deliverAddress != null" >
+        deliver_address,
+      </if>
+      <if test="deliverPhone != null" >
+        deliver_phone,
+      </if>
+      <if test="doNo != null" >
+        do,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryTime != null" >
+        #{deliveryTime,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyEmail != null" >
+        #{notifyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyUrl != null" >
+        #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="assignTo != null" >
+        #{assignTo,jdbcType=VARCHAR},
+      </if>
+      <if test="instructions != null" >
+        #{instructions,jdbcType=VARCHAR},
+      </if>
+      <if test="zone != null" >
+        #{zone,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverAddress != null" >
+        #{deliverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverPhone != null" >
+        #{deliverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="doNo != null" >
+        #{do,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.internal.zl.logicsystem.en.entity.DeliveriesInfo" >
+    update deliveries_info
+    <set >
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryTime != null" >
+        delivery_time = #{deliveryTime,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyEmail != null" >
+        notify_email = #{notifyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyUrl != null" >
+        notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="assignTo != null" >
+        assign_to = #{assignTo,jdbcType=VARCHAR},
+      </if>
+      <if test="instructions != null" >
+        instructions = #{instructions,jdbcType=VARCHAR},
+      </if>
+      <if test="zone != null" >
+        zone = #{zone,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverAddress != null" >
+        deliver_address = #{deliverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverPhone != null" >
+        deliver_phone = #{deliverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="doNo != null" >
+        do = #{doNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.internal.zl.logicsystem.en.entity.DeliveriesInfo" >
+    update deliveries_info
+    set date = #{date,jdbcType=TIMESTAMP},
+      address = #{address,jdbcType=VARCHAR},
+      delivery_time = #{deliveryTime,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      notify_email = #{notifyEmail,jdbcType=VARCHAR},
+      notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      assign_to = #{assignTo,jdbcType=VARCHAR},
+      instructions = #{instructions,jdbcType=VARCHAR},
+      zone = #{zone,jdbcType=VARCHAR},
+      deliver_address = #{deliverAddress,jdbcType=VARCHAR},
+      deliver_phone = #{deliverPhone,jdbcType=VARCHAR},
+      do = #{doNo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
