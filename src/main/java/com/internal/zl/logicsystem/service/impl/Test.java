@@ -1,6 +1,7 @@
 package com.internal.zl.logicsystem.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 
 /**
  * @author: lxf
@@ -28,6 +29,8 @@ public class Test {
                 "   ]\n" +
                 "}";
         String sss= StrUtil.subBetween(ss,"status\":\"","\",failed");
+
+        System.out.println(JSONUtil.formatJsonStr(ss));
         System.out.println(sss);
     }
 }

@@ -1,5 +1,6 @@
 package com.internal.zl.logicsystem.en.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -44,6 +45,7 @@ public class DeliveriesInfoVo {
     @NotNull(message = "The deliver phone  is required")
     private String deliverPhone;
 
+    @JsonProperty("do")
     private String doNo;
 
     private Integer status;

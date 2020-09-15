@@ -32,12 +32,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.internal.zl.logicsystem.en.entity.DeliveriesInfo" >
-    insert into deliveries_info (id, date, address, 
+    insert into deliveries_info ( date, address,
       delivery_time, phone, notify_email, 
       notify_url, assign_to, instructions, 
       zone, deliver_address, deliver_phone, 
       do, status)
-    values (#{id,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, 
+    values ( #{date,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR},
       #{deliveryTime,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{notifyEmail,jdbcType=VARCHAR}, 
       #{notifyUrl,jdbcType=VARCHAR}, #{assignTo,jdbcType=VARCHAR}, #{instructions,jdbcType=VARCHAR}, 
       #{zone,jdbcType=VARCHAR}, #{deliverAddress,jdbcType=VARCHAR}, #{deliverPhone,jdbcType=VARCHAR}, 

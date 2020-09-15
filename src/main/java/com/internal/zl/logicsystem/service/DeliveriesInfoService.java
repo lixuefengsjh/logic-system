@@ -1,7 +1,9 @@
 package com.internal.zl.logicsystem.service;
 
+import com.internal.zl.logicsystem.en.dto.AddDeliveriesDto;
 import com.internal.zl.logicsystem.en.dto.DeliveriesDto;
 import com.internal.zl.logicsystem.en.vo.DeliveriesInfoVo;
+import com.internal.zl.logicsystem.en.vo.ViewDeliveriesVo;
 
 import java.util.List;
 
@@ -13,9 +15,9 @@ import java.util.List;
 public interface DeliveriesInfoService {
     String  save(DeliveriesInfoVo deliveriesInfoVo);
 
-    void confirmOrderDeliveries(DeliveriesInfoVo deliveriesInfoVo);
+    AddDeliveriesDto confirmOrderDeliveries(DeliveriesInfoVo deliveriesInfoVo);
 
-    DeliveriesDto viewDeliveries(String date, String doNo);
+    DeliveriesDto viewDeliveries(ViewDeliveriesVo viewDeliveriesVo);
 
-    List<DeliveriesDto> viewAllDeliveries(String date);
+    List<DeliveriesDto> viewAllDeliveries(ViewDeliveriesVo viewDeliveriesVo);
 }

@@ -1,6 +1,9 @@
 package com.internal.zl.logicsystem.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
+import com.github.tomakehurst.wiremock.common.Json;
 import com.internal.zl.logicsystem.en.dto.DeliveriesDto;
 import com.internal.zl.logicsystem.en.vo.DeliveriesInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +26,16 @@ public class DeliveriesInfoApi {
     @Autowired
     private RestTemplate  restTemplate;
     public  String addDeliveries(List<DeliveriesInfoVo> deliveriesInfoVo){
+
         HttpHeaders headers = new HttpHeaders();
-        MultiValueMap<String, DeliveriesInfoVo> map = new LinkedMultiValueMap<>();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Accept", MediaType.APPLICATION_JSON.toString());
-        map.put("list",deliveriesInfoVo);
-        HttpEntity<MultiValueMap<String, DeliveriesInfoVo>> httpEntity = new HttpEntity<>(map, headers);
+        String param= JSONUtil.toJsonPrettyStr(deliveriesInfoVo);
+
+        HttpEntity<String> httpEntity = new HttpEntity<>(param, headers);
         String url="https://app.detrack.com/api/v1/deliveries/create.json?key=f7f09e353da79b9ad3823e9dd4fc95b844766e11a63d584f";
         ResponseEntity<Object> response = restTemplate.postForEntity(url, httpEntity, Object.class);
+        System.out.println("param"+param);
         System.out.println( response.getBody().toString());
         String status= StrUtil.subBetween(response.getBody().toString(),"","");
         return  status;
@@ -38,14 +43,20 @@ public class DeliveriesInfoApi {
 
     public DeliveriesDto viewDeliveries(String date, String doNo){
         HttpHeaders headers = new HttpHeaders();
-        MultiValueMap<String, Map> map = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+        String s="[\n" +
+                "        {\n" +
+                "            \"date\":\"2014-02-13\",\n" +
+                "                \"do\":\"DO140213001\"\n" +
+                "        }\n" +
+                "]";
         HashMap<String,String> param=new HashMap(){{
             put("date",date);
             put("do",doNo);
         }};
-        map.put("list", Collections.singletonList(param));
+        map.put("list", Collections.singletonList(s));
         HttpEntity<MultiValueMap<String,List<Map>>> httpEntity = new HttpEntity(map, headers);
         String url="https://app.detrack.com/api/v1/deliveries/view.json?key=f7f09e353da79b9ad3823e9dd4fc95b844766e11a63d584f";
         ResponseEntity<Object> response = restTemplate.postForEntity(url, httpEntity, Object.class);
@@ -62,7 +73,7 @@ public class DeliveriesInfoApi {
         map.put("date", Collections.singletonList(date));
         HttpEntity<MultiValueMap<String,List<Map>>> httpEntity = new HttpEntity(map, headers);
         String url="https://app.detrack.com/api/v1/deliveries/view/all.json?key=f7f09e353da79b9ad3823e9dd4fc95b844766e11a63d584f";
-        ResponseEntity<Object> response = restTemplate.postForEntity(url, httpEntity, Object.class);
+        ResponseEntity<JSON> response = restTemplate.postForEntity(url, httpEntity, JSON.class);
         System.out.println( response.getBody().toString());
         String status= StrUtil.subBetween(response.getBody().toString(),"","");
         return  Arrays.asList(new DeliveriesDto());

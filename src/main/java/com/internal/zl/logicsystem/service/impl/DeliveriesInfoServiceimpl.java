@@ -1,12 +1,18 @@
 package com.internal.zl.logicsystem.service.impl;
 
 import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.StrUtil;
+import com.internal.zl.logicsystem.en.dto.AddDeliveriesDto;
 import com.internal.zl.logicsystem.en.dto.DeliveriesDto;
+import com.internal.zl.logicsystem.en.dto.ViewAllDeliveriesResultDto;
+import com.internal.zl.logicsystem.en.dto.ViewDeliveriesDto;
 import com.internal.zl.logicsystem.en.entity.DeliveriesInfo;
 import com.internal.zl.logicsystem.en.entity.DeliveriesItem;
 import com.internal.zl.logicsystem.en.vo.DeliveriesInfoVo;
+import com.internal.zl.logicsystem.en.vo.ViewDeliveriesVo;
 import com.internal.zl.logicsystem.mapper.DeliveriesInfoMapper;
 import com.internal.zl.logicsystem.mapper.DeliveriesItemMapper;
+import com.internal.zl.logicsystem.service.DeliveriesInfoClient;
 import com.internal.zl.logicsystem.service.DeliveriesInfoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +37,9 @@ public class DeliveriesInfoServiceimpl implements DeliveriesInfoService {
     @Autowired
     DeliveriesItemMapper deliveriesItemMapper;
 
+
     @Autowired
-    private DeliveriesInfoApi  deliveriesInfoApi;
+    private DeliveriesInfoClient deliveriesInfoClient;
 
     @Override
     public String save(DeliveriesInfoVo deliveriesInfoVo) {
@@ -49,28 +56,40 @@ public class DeliveriesInfoServiceimpl implements DeliveriesInfoService {
                 }).collect(Collectors.toList());
         deliveriesInfoMapper.insert(deliveriesInfo);
         deliveriesItemMapper.batchInsert(deliveriesItems);
+
         return  doNo;
     }
 
     @Override
-    public void confirmOrderDeliveries(DeliveriesInfoVo deliveriesInfoVo) {
-        deliveriesInfoApi.addDeliveries(Arrays.asList(deliveriesInfoVo));
-        if(true){
+    public AddDeliveriesDto confirmOrderDeliveries(DeliveriesInfoVo deliveriesInfoVo) {
+        AddDeliveriesDto addDeliveriesDto=deliveriesInfoClient.addDeliveriesInfo(Arrays.asList(deliveriesInfoVo));
+        String status=addDeliveriesDto.getInfo().getStatus();
+        int filed=addDeliveriesDto.getInfo().getFailed();
+        if(StrUtil.equals("ok",status,true)&&filed==0){
             DeliveriesInfo deliveriesInfo =new DeliveriesInfo();
             BeanUtils.copyProperties(deliveriesInfoVo,deliveriesInfo);
             deliveriesInfo.setStatus(1);
             deliveriesInfoMapper.updateByPrimaryKeySelective(deliveriesInfo);
         }
+        return addDeliveriesDto;
     }
 
     @Override
-    public DeliveriesDto viewDeliveries(String date, String doNo) {
-        return  deliveriesInfoApi.viewDeliveries(date,doNo);
+    public DeliveriesDto viewDeliveries(ViewDeliveriesVo viewDeliveriesVo) {
+        ViewDeliveriesDto viewDeliveriesDto=  deliveriesInfoClient.viewDeliveries(Arrays.asList(viewDeliveriesVo));
+        if(StrUtil.equals("ok",viewDeliveriesDto.getInfo().getStatus(),true)){
+            return  viewDeliveriesDto.getResults().get(0).getDelivery();
+        };
+        return  null;
     }
 
     @Override
-    public List<DeliveriesDto> viewAllDeliveries(String date) {
-        return  deliveriesInfoApi.viewDeliveries(date);
+    public List<DeliveriesDto> viewAllDeliveries(ViewDeliveriesVo viewDeliveriesVo) {
+        ViewAllDeliveriesResultDto viewAllDeliveriesResultDto=    deliveriesInfoClient.viewAllDeliveries(viewDeliveriesVo);
+        if(StrUtil.equals("ok",viewAllDeliveriesResultDto.getInfo().getStatus(),true)){
+            return viewAllDeliveriesResultDto.getDeliveries();
+        }
+        return null;
     }
 
 }

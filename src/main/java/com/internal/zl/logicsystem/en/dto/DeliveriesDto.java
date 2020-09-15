@@ -1,5 +1,6 @@
 package com.internal.zl.logicsystem.en.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -40,6 +41,7 @@ public class DeliveriesDto {
 
     private Integer image;
 
+    @JsonProperty("do")
     private String  doNo ;
 
     private String pod_lat;

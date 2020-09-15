@@ -1,8 +1,11 @@
 package com.internal.zl.logicsystem.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.internal.zl.logicsystem.base.SystemResponse;
+import com.internal.zl.logicsystem.en.dto.AddDeliveriesDto;
 import com.internal.zl.logicsystem.en.dto.DeliveriesDto;
 import com.internal.zl.logicsystem.en.vo.DeliveriesInfoVo;
+import com.internal.zl.logicsystem.en.vo.ViewDeliveriesVo;
 import com.internal.zl.logicsystem.service.DeliveriesInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,21 +35,26 @@ public class DeliveriesInfoController {
 
     @PostMapping("/confirm")
     @ApiOperation("确认支付接口")
-    public SystemResponse<String>  confirmOrderDeliveries(@RequestBody DeliveriesInfoVo deliveriesInfoVo){
-        deliveriesInfoServiceImpl.confirmOrderDeliveries(deliveriesInfoVo);
-        return SystemResponse.ok("pay money ok");
+    public SystemResponse<AddDeliveriesDto>  confirmOrderDeliveries(@RequestBody DeliveriesInfoVo deliveriesInfoVo){
+        AddDeliveriesDto dto=deliveriesInfoServiceImpl.confirmOrderDeliveries(deliveriesInfoVo);
+        String status=dto.getInfo().getStatus();
+        int filed=dto.getInfo().getFailed();
+        if(StrUtil.equals("ok",status,true)&&filed==0){
+            return SystemResponse.ok(dto);
+        }
+        return SystemResponse.failed(dto);
     }
-    @GetMapping("/view/{date}/{do}")
+    @PostMapping("/viewDeliveries")
     @ApiOperation("查询单个快递记录")
-    public SystemResponse<DeliveriesDto> viewDeliveries(@PathVariable String date, @PathVariable(value ="do" ) String doNo){
-        DeliveriesDto deliveriesDto= deliveriesInfoServiceImpl.viewDeliveries(date,doNo);
+    public SystemResponse<DeliveriesDto> viewDeliveries(@RequestBody ViewDeliveriesVo viewDeliveriesVo){
+        DeliveriesDto deliveriesDto= deliveriesInfoServiceImpl.viewDeliveries(viewDeliveriesVo);
         return SystemResponse.ok(deliveriesDto);
     }
 
-    @GetMapping("/view/{date}")
+    @PostMapping("/viewAllDeliveries")
     @ApiOperation("查询所有快递记录")
-    public SystemResponse<List<DeliveriesDto>> viewAllDeliveries(@PathVariable String date){
-        List<DeliveriesDto> deliveriesDtos= deliveriesInfoServiceImpl.viewAllDeliveries(date);
+    public SystemResponse<List<DeliveriesDto>> viewAllDeliveries(@RequestBody ViewDeliveriesVo viewDeliveriesVo){
+        List<DeliveriesDto> deliveriesDtos= deliveriesInfoServiceImpl.viewAllDeliveries(viewDeliveriesVo);
         return SystemResponse.ok(deliveriesDtos);
     }
 }
