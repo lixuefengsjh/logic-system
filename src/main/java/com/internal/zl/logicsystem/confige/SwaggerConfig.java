@@ -29,7 +29,7 @@ public class SwaggerConfig {
                         .title("前后端合作分离")
                         .description("SpringBoot整合Swagger，详细信息......")
                         .version("9.0")
-                        .contact(new Contact("啊啊啊啊","blog.csdn.net","xxxxx@gmail.com"))
+                        .contact(new Contact("努力做到最好,如果你有更复杂的业务请扣扣联系。。。。。。。","blog.csdn.net","1203496509@qq.com"))
                         .license("The Apache License")
                         .licenseUrl("http://www.baidu.com")
                         .build());
