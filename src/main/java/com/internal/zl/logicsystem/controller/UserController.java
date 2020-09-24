@@ -48,4 +48,15 @@ public class UserController {
             return  SystemResponse.ok(results);
         }
     };
+    @PostMapping("/login")
+    @ApiOperation("用户查询接口")
+    public SystemResponse<String> login(@RequestBody @Valid UserVo user){
+        UserDto dto=userService.findUserByNameAndPassword(user.getName(),user.getPassword());
+        if(null==dto){
+            return SystemResponse.failed("user is not exist");
+        }else {
+            return SystemResponse.ok("login success");
+        }
+
+    }
 }

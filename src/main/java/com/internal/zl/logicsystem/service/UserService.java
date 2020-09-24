@@ -17,4 +17,6 @@ public interface UserService {
     void update(UserVo user);
 
     List<UserDto> queryAll();
+
+    UserDto findUserByNameAndPassword(String name,String password);
 }

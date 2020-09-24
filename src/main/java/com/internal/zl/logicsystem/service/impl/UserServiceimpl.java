@@ -49,6 +49,14 @@ public class UserServiceimpl implements UserService {
         return result;
     }
 
+    @Override
+    public UserDto findUserByNameAndPassword(String name, String password) {
+       User user= userMapper.findUserByNameAndPassword(name,password);
+        UserDto dto =new UserDto();
+        BeanUtils.copyProperties(user,dto);
+        return dto;
+    }
+
     private  User copyProperties( UserVo user){
         User userInfo=new User();
         BeanUtils.copyProperties(user,userInfo);
