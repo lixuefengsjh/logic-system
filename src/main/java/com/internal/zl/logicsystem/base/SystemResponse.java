@@ -17,7 +17,6 @@ public class SystemResponse<T> implements Serializable {
 
     private T date;
 
-
     public SystemResponse setResponseCode(int responseCode) {
         this.responseCode = responseCode;
         return  this;
